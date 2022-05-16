@@ -10,43 +10,49 @@ String lcdBuffer;
 void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
+  // set uo initial values of variables;
   entradaSensor = 0;
   temp = 0;
+  // Print a message to the LCD:
   lcd.print("Temperatura:");
-  // Print a message to the LCD.
   
 }
 
 void loop(){
   
-  pinMode(8, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
+  pinMode(8, OUTPUT);  //Red LED
+  pinMode(9, OUTPUT);  //Blue LED
+  pinMode(10, OUTPUT); //Buzzer
   
   lcd.print("                ");
+  
+  // Reading analog input and coverting to Celsius
   entradaSensor = analogRead(0);
   temp = (double)entradaSensor/1024;
   temp *= 5;
   temp -= 0.5;
   temp *= 100;
+  
   lcd.setCursor(0,1);
   String output = String(temp) + String((char)178) + "C";
   lcd.print(output);
   
-  if ( temp >= 20 ) {
+  // High temperature, turn on red LED and beep
+  if ( temp >= 7 ) {
     digitalWrite(8, HIGH);
     digitalWrite(10, HIGH);
   }
   else
     digitalWrite(8, LOW);
- 	digitalWrite(10, LOW);
+ 	  digitalWrite(10, LOW);
   
-  if ( temp <= 0 ) {
+  // Low temperatura, turn on blue LED and beep
+  if ( temp <= 4 ) {
     digitalWrite(9, HIGH);
     digitalWrite(10, HIGH);
   }
   else
   	digitalWrite(9, LOW);
- 	digitalWrite(10, LOW);
+ 	  digitalWrite(10, LOW);
 
 }
